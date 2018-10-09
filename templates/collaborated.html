@@ -1,0 +1,84 @@
+
+	    <nav class="timetable-control" id="collab-display">
+			<div class="available-members">
+				<div id="colour-code">
+					<a class=nav-buttons href="/"><div class="btn-group" id="home-button">
+						<i class="fas fa-arrow-left"></i>
+					</div></a>
+					<table>
+						<tbody>
+							<tr>
+								<td class id="red">1</td></td><td class id="yellow">1</td><td class id="blue">1</td><td class id="green">1</td>
+							</tr>
+							<tr>
+								<td class id="grey">None-25%</td><td class id="grey">>25-50%</td><td class id="grey">>50-75%</td><td class id="grey">>75-100%</td>
+							</tr>
+						</tbody>
+					</table>
+					<div id="collab-group-name"><span>{{group}}</span></div>
+				</div>
+				<div id="available-members">AVAILABLE: </div>
+			</div>
+		</nav>
+
+	    <div class="timetable-container">
+	        <table class="timetable table table-sm">
+	            <thead>
+	                <tr>
+	                    <th class="table-space"></th>
+	                    <th class="th-top-collab">Mon</th>
+	                    <th class="th-top-collab">Tue</th>
+	                    <th class="th-top-collab">Wed</th>
+	                    <th class="th-top-collab">Thu</th>
+	                    <th class="th-top-collab">Fri</th>
+	                    <th class="th-top-collab">Sat</th>
+	                    <th class="th-top-collab">Sun</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            	{% set hour = ["one", "one", "two", "two", "three", "three", "four", "four",
+	            					"five", "five", "six", "six", "seven", "seven", "eight", "eight",
+	            					"nine", "nine", "ten", "ten", "eleven", "eleven", "twelve", "twelve",
+	            					"thirteen", "thirteen"] %}
+	            	{% set count = namespace(val=0) %}
+	            	{% set time = namespace(val=7) %}
+	            	{% set am_pm = namespace(val="am") %}
+	            	{% set row = namespace(val="odd") %}
+	            	{% for i in range(26) %}
+	            	<tr>
+	            		{% if row.val == "odd" %}
+	            			<th class="th-side row{{hour[i]}}" rowspan="2"><div id="th-side-collab">{{ time.val }} {{ am_pm.val }}</div></th>
+	            			{% set row.val = "even" %}
+	            			{% if time.val == 12 %}
+	                			{% set time.val = 1 %}
+	                			{% set am_pm.val = "pm" %}
+	                		{% else %}
+	                			{% set time.val = time.val + 1 %}
+	                		{% endif %}
+	            		{% else %}
+	            			{% set row.val = "odd" %}
+	            		{% endif %}
+
+	            		{% for j in range(7) %}
+	            			{% if collab_data[count.val] == 0 %}
+	            				<td id="grey" class="{{name_groups[count.val]}} {{hour[i]}}"></td>
+	                			{% set count.val = count.val + 1 %}
+	                		{% else %}
+	                			{% if collab_data[count.val] > 0 and collab_data[count.val] <= 25 %}
+	                				<td id="red" class="{{name_groups[count.val]}} {{hour[i]}}"></td>
+	                			{% elif collab_data[count.val] > 25 and collab_data[count.val] <= 50 %}
+	                				<td id="yellow" class="{{name_groups[count.val]}} {{hour[i]}}"></td>
+	                			{% elif collab_data[count.val] > 50 and collab_data[count.val] <= 75 %}
+	                				<td id="blue" class="{{name_groups[count.val]}} {{hour[i]}}"></td>
+	                			{% else %}
+	                				<td id="green" class="{{name_groups[count.val]}} {{hour[i]}}"></td>
+	                			{% endif %}
+	                			{% set count.val = count.val + 1 %}
+	                		{% endif %}
+	            		{% endfor %}
+	            		<th class="row{{hour[i]}}"></th>
+	            	</tr>
+	            	{% endfor %}
+	            </tbody>
+	    	</table>
+	    </div>

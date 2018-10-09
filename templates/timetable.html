@@ -1,0 +1,77 @@
+   <!---------------------- Page Content ----------------------->
+    <div class="page-content-block"></div>
+    <div class="page-content">
+	    <nav class="timetable-control">
+			<div class="timetable-control-buttons">
+	            <form id="timetable-form" action="/save" method="post">
+	                <input id="availability-save" type="hidden" name="timetable-data" value="">
+	                <button type="submit" id="save">Save <i class="fas fa-save"></i></button>
+	            </form>
+	            <div>
+	                <button id="reset">Reset <i class="fas fa-times">
+	                </i></button>
+	            </div>
+	        </div>
+			<span>Availability</span>
+			<div class="collab"> <!-- Hidden -->
+	    		<form id="timetable-collab-form" action="/save_collab" method="post">
+	    			<input id="availability-collab-save" type="hidden" name="timetable-data-collab" value="">
+	    			<button type="submit" id="collab">save & collab <i class="fas fa-sync-alt"></i></button>
+	    		</form>
+			</div>
+		</nav>
+
+	    <div class="timetable-container">
+	        <table class="timetable table table-sm">
+	            <thead>
+	                <tr>
+	                    <th class="table-space"></th>
+	                    <th class="th-top" id="mon">Mon</th>
+	                    <th class="th-top" id="tue">Tue</th>
+	                    <th class="th-top" id="wed">Wed</th>
+	                    <th class="th-top" id="thu">Thu</th>
+	                    <th class="th-top" id="fri">Fri</th>
+	                    <th class="th-top" id="sat">Sat</th>
+	                    <th class="th-top" id="sun">Sun</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	            	{% set day = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] %}
+	            	{% set hour = ["one", "one", "two", "two", "three", "three", "four", "four",
+	            					"five", "five", "six", "six", "seven", "seven", "eight", "eight",
+	            					"nine", "nine", "ten", "ten", "eleven", "eleven", "twelve", "twelve",
+	            					"thirteen", "thirteen"] %}
+	            	{% set count = namespace(val=0) %}
+	            	{% set time = namespace(val=7) %}
+	            	{% set am_pm = namespace(val="am") %}
+	            	{% set row = namespace(val="odd") %}
+	            	{% for i in range(26) %}
+	            	<tr>
+	            		{% if row.val == "odd" %}
+	            			<th rowspan="2" class="th-side row{{hour[i]}}" id="{{hour[i]}}"><div id="th-side">{{ time.val }} {{ am_pm.val }}</div></th>
+	            			{% set row.val = "even" %}
+	            			{% if time.val == 12 %}
+	                			{% set time.val = 1 %}
+	                			{% set am_pm.val = "pm" %}
+	                		{% else %}
+	                			{% set time.val = time.val + 1 %}
+	                		{% endif %}
+	            		{% else %}
+	            			{% set row.val = "odd" %}
+	            		{% endif %}
+	            		{% for j in range(7) %}
+	            			{% if availability[count.val] == "1" %}
+	                			<td class="{{day[j]}} {{hour[i]}} available" id="{{ count.val }}"></td>
+	                			{% set count.val = count.val + 1 %}
+	                		{% else %}
+	                			<td class="{{day[j]}} {{hour[i]}}" id="{{ count.val }}"></td>
+	                			{% set count.val = count.val + 1 %}
+	                		{% endif %}
+	            		{% endfor %}
+	            		<th class=row{{hour[i]}}></th>
+	            	</tr>
+	            	{% endfor %}
+	            </tbody>
+	    	</table>
+	    </div>
+	</div>

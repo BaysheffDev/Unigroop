@@ -1,0 +1,36 @@
+{% set count = namespace(val=0) %}
+{% for group_id, name_code in group_data.items() %}
+	<li>
+	    <div class="group-header">
+	    	<div>
+	    		<span class="group-name">{{name_code[0]}} </span>
+	    		<span id="code"> code: {{name_code[1]}}</span>
+	    	</div>
+	    	<a href="#{{name_code[0]}}" data-toggle="collapse" aria-expanded="false">
+	    		<i class="fas fa-arrow-circle-down"></i>
+	    	</a>
+	    </div>
+	    <ul class="collapse list-unstyled" id="{{name_code[0]}}">
+	        {% for username, displayname in all_group_members[count.val].items() %}
+	        	<li class="member">{{displayname}} <span id="code">{{username}}</span></li>
+	        {% endfor %}
+	        {% set count.val = count.val + 1 %}
+	        <!-- Add members -->
+	        <div class="add-member">
+	        	<form id="add-member-form" action="/member" method="post">
+	        		<input type="hidden" name="group_id" value="{{group_id}}">
+					<input class="add-member-text" type="text" name="add-member" placeholder="add...">
+					<button type="submit" class="input-btn add-member-button">
+						<i class="fas fa-user-plus"></i>
+					</button>
+				</form>
+				<form id="leave-group-form" action="/leave" method="post">
+					<input type="hidden" name="leave" value="{{group_id}}">
+					<button type="submit" id="leave-group">Leave
+					<i class="fas fa-sign-out-alt"></i>
+					</button>
+				</form>
+			</div>
+		</ul>
+	</li>
+{% endfor %}

@@ -1,0 +1,93 @@
+<!--------------- Sidebar utility elements --------------->
+    <!-- Sidebar header -->
+    <div class="sidebar-header">
+        <!-- Settings -->
+        <button type="button" id="settings-btn" class="btn">
+        	<i class="fas fa-cogs fa-2x"></i>
+        </button>
+        <!-- Menu toggle on sidebar -->
+        <button type="button" id="sidebar-collapse" class="btn btn-dark">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Settings tab -->
+    <div class="settings-tab">
+    	<div class="settings-space"></div>
+    	<ul class="settings list-unstyled">
+    		<li>
+    			<div class="details username">
+    				<div>Username: </div>
+    				<div>
+    				    <form id="username-form" action="/username" method="post">
+    				        <input type="text" name="username" placeholder="{{username}}">
+    				        <button class="change">Change</button>
+    				    </form>
+    			    </div>
+			    </div>
+    		</li>
+    		<li>
+    			<div class="details displayname">
+    			    <div>Displayname: </div>
+    				<div>
+    				    <form id="displayname-form" action="/displayname" method="post">
+    				        <input type="text" name="displayname" placeholder="{{displayname}}">
+    				        <button class="change">Change</button>
+    				    </form>
+    			    </div>
+    			</div>
+    		</li>
+    		<!--<li>-->
+    		<!--	<div class="details university">-->
+    		<!--		<div>Uni: </div><div><input type="text" name="uni" placeholder="University of South Australia">-->
+    		<!--		<button class="change">Change</button></div>-->
+    		<!--	</div>-->
+    		<!--</li>-->
+    		<li>
+    			<div class="details logout">
+    				<form action="/logout">
+    				    <button class="logout">Log out</button></div>
+    				</form>
+    			</div>
+    		</li>
+    	</ul>
+    </div>
+
+    <!---------------------- sidebar ----------------------->
+    <nav class="sidebar">
+		<!-- User Display -->
+		<div class="user-display">
+			<span id="user-displayname">{{displayname}}</span>
+			<span id="user-username">{{username}}</span>
+		</div>
+		<!-- Groups -->
+        <ul class="list-unstyled groups">
+            {% include "groups.html" %}
+        </ul>
+
+
+        <!-- Join Group -->
+        <div class="group-control-input">
+			<form id="join-group-form" action="/join" method="post">
+			    <input id="group-code-join" type="hidden" name="group-code-join" value="">
+				<input class="input-text" type="text" name="group_name-join" placeholder="Join groop...">
+				<button type="submit" class="input-btn">
+					<i class="fas fa-plus"></i>
+				</button>
+			</form>
+		</div>
+
+        <!-- Create Group -->
+        <div class="group-control-input">
+			<form id="create-group-form" action="/create" method="post">
+			    <input id="group-code-create" type="hidden" name="group-code-create" value="">
+				<input class="input-text" type="text" name="group_name-create" placeholder="Create groop...">
+				<button type="submit" class="input-btn">
+					<i class="fas fa-folder-plus"></i>
+				</button>
+			</form>
+		</div>
+    </nav>
+
+    <!------------------ Transparent overlay ------------------>
+	<div class="overlay"></div>

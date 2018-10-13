@@ -22,7 +22,7 @@ app.secret_key = b'\x1a`\x8c?]\xd7\xc7\xaeFt\xf2\xf4\xc2c\x0bM'
 
 
 # Connect database
-connect_db = sqlite3.connect("unigroop.db", check_same_thread=False)
+connect_db = sqlite3.connect("/home/BaysheffDev/myproject/unigroop.db", check_same_thread=False)
 db = connect_db.cursor()
 
 # Ensure responses aren't cached

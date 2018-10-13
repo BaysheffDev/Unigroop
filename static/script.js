@@ -11,15 +11,29 @@ $(document).ready(function () {
     // Check register input
     $('#register-form').submit(function () {
         let submit = true;
+
         $('#register-form input').each(function () {
             if (!$(this).val()) {
                 submit = false;
             }
+
         });
+
         if (!submit) {
             alert("Please fill in all fields");
             return false;
         }
+
+        if ($('#register-form input[name=password]').val().length < 6) {
+                alert("Password must be at least 6 characters long");
+                return false;
+            }
+
+        if ($('#register-form input[name=password]').val() !== $('#register-form input[name=confirmation]').val()) {
+                alert("Passwords do not match");
+                return false;
+            }
+
         return true;
     });
 
@@ -182,7 +196,7 @@ $(document).ready(function () {
 
 
     // Mark entire day as available
-    $('th').on('click', function () {
+    $('.th-top').on('click', function () {
         let check = $(this).attr('id');
         $(this).toggleClass('on');
         if ($(this).attr('class').split(' ')[1]) {
@@ -192,6 +206,17 @@ $(document).ready(function () {
             $('.' + check).removeClass('available');
         }
     });
+
+    $('.th-side').on('click', function () {
+            let check = $(this).attr('id');
+            $(this).toggleClass('on');
+            if ($(this).attr('class').split(' ')[2]) {
+                $('.' + check).addClass('available');
+            }
+            else {
+                $('.' + check).removeClass('available');
+            }
+        });
 
     // Save Timetable
     $('#timetable-form, #collab-form').submit(function () {

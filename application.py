@@ -12,13 +12,13 @@ import sqlite3
 app = Flask(__name__)
 
 # Secret key
-# app.secret_key = b'\x1a`\x8c?]\xd7\xc7\xaeFt\xf2\xf4\xc2c\x0bM'
+app.secret_key = b'\x1a`\x8c?]\xd7\xc7\xaeFt\xf2\xf4\xc2c\x0bM'
 
 ########## Session in file system
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+# app.config["SESSION_FILE_DIR"] = mkdtemp()
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# Session(app)
 
 
 # Connect database
@@ -390,6 +390,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username")
         displayname = request.form.get("displayname")
+        email = request.form.get("email")
         password = generate_password_hash(request.form.get("password"),
                                 method='pbkdf2:sha256', salt_length=8)
 
@@ -397,7 +398,7 @@ def register():
         result = db.fetchall()
         if not result:
 
-            db.execute("INSERT INTO users (username, displayname, password) VALUES(?,?,?)", (username, displayname, password))
+            db.execute("INSERT INTO users (username, displayname, password, email) VALUES(?,?,?,?)", (username, displayname, password, email))
             connect_db.commit()
 
             db.execute("SELECT * FROM users WHERE username=?", (username,))
